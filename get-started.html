@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Get Started — Placeholder</title>
+<!--
+  FONT IMPORTS
+  Swap fonts: update the Google Fonts URL + the three --font-* variables in :root.
+-->
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================
+
+   COLOR DISTRIBUTION — 60 / 30 / 10 rule
+   60% → --color-surface #FFFFFF  white (backgrounds, cards)
+         --color-subtle  #D3C4D1  mauve (section bg, borders)
+   30% → --color-secondary #56CBF9 blue  (progress done, accents)
+         --color-highlight #81F4E1 mint  (tags, badges, selected states)
+   10% → --color-primary   #FF729F pink  (CTAs, active step, focus rings)
+
+   FONTS
+   --font-heading : page title, step headings
+   --font-body    : all body copy, labels, nav links
+   --font-button  : CTA / navigation buttons only
+*/
+:root {
+
+  /* =====================================================
+     FONTS
+     ===================================================== */
+  --font-heading : 'Clash Display', sans-serif;
+  --font-body    : 'DM Sans', sans-serif;
+  --font-button  : 'Clash Display', sans-serif;
+
+  /* =====================================================
+     COLOR PALETTE  (60 / 30 / 10 rule)
+     ===================================================== */
+  --color-primary    : #FF729F;   /* pink  — 10% accent */
+  --color-primary-dk : #e05080;   /* pink darker — hover */
+  --color-secondary  : #56CBF9;   /* blue  — 30% secondary */
+  --color-highlight  : #81F4E1;   /* mint  — 30% secondary */
+  --color-subtle     : #D3C4D1;   /* mauve — 60% neutral */
+  --color-surface    : #FFFFFF;   /* white — 60% dominant */
+
+  /* =====================================================
+     TEXT COLORS
+     ===================================================== */
+  --text-heading : #2a1020;
+  --text-body    : #5a3a4a;
+  --text-muted   : #9a7a88;
+
+  /* =====================================================
+     SECTION BACKGROUND COLORS
+     ===================================================== */
+  --bg-nav    : rgba(255, 255, 255, 0.92);
+  --bg-page   : #faf7f8;    /* Page background — softest mauve tint */
+  --bg-footer : #D3C4D1;    /* Footer — mauve */
+
+  /* =====================================================
+     BUTTON COLORS
+     One var per button role — change here to restyle all
+     ===================================================== */
+  --btn-primary-bg       : #2a1020;   /* Back button — dark */
+  --btn-primary-bg-hover : #FF729F;   /* Back button hover — pink */
+  --btn-primary-text     : #FFFFFF;
+
+  --btn-ghost-border       : rgba(211, 196, 209, 0.8);
+  --btn-ghost-text         : #5a3a4a;
+  --btn-ghost-border-hover : #FF729F;
+  --btn-ghost-text-hover   : #FF729F;
+
+  --btn-accent-bg       : #FF729F;   /* Next / Submit / primary action */
+  --btn-accent-bg-hover : #e05080;
+  --btn-accent-text     : #FFFFFF;
+
+  /* =====================================================
+     BORDERS
+     ===================================================== */
+  --border-light : rgba(211, 196, 209, 0.5);
+  --border-mid   : rgba(211, 196, 209, 0.8);
+
+  /* =====================================================
+     SHAPE & MOTION
+     ===================================================== */
+  --radius      : 16px;
+  --radius-pill : 100px;
+  --radius-card : 24px;
+  --transition  : all 0.25s ease;
+}
+
+/* ============================================================ RESET */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { font-family:var(--font-body); background:var(--bg-page); color:var(--text-body); overflow-x:hidden; -webkit-text-size-adjust:100%; min-height:100vh; }
+
+/* ============================================================ TYPE */
+.t-h1    { font-family:var(--font-heading); font-size:clamp(1.9rem,4vw,3.6rem); font-weight:700; line-height:1.08; letter-spacing:-1px; }
+.t-body  { font-family:var(--font-body);    font-size:clamp(0.9rem,1.05vw,1.05rem); line-height:1.75; }
+.t-small { font-family:var(--font-body);    font-size:clamp(0.75rem,0.9vw,0.85rem); }
+
+/* ============================================================ NAV */
+nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; justify-content:space-between; align-items:center; padding:clamp(0.9rem,1.5vw,1.2rem) clamp(5%,6vw,8%); background:var(--bg-nav); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid var(--border-light); }
+.nav-logo { font-family:var(--font-heading); font-size:clamp(1.1rem,1.5vw,1.4rem); font-weight:700; color:var(--text-heading); letter-spacing:-0.5px; text-decoration:none; }
+.nav-logo span { color:var(--color-primary); }
+.nav-back { display:inline-flex; align-items:center; gap:0.4rem; text-decoration:none; color:var(--text-muted); font-family:var(--font-body); font-size:clamp(0.8rem,0.9vw,0.9rem); font-weight:500; transition:var(--transition); }
+.nav-back:hover { color:var(--color-primary); }
+
+/* ============================================================ PAGE LAYOUT */
+.page-wrap { min-height:100vh; padding:clamp(100px,13vh,140px) clamp(5%,6vw,8%) clamp(60px,8vh,100px); }
+.page-inner { max-width:780px; margin:0 auto; }
+
+/* ============================================================ HEADER */
+/* Tag — 10% accent, small use of mint */
+.page-tag { display:inline-block; background:var(--color-highlight); color:var(--text-heading); font-family:var(--font-body); font-weight:600; font-size:clamp(0.65rem,0.8vw,0.78rem); letter-spacing:1px; text-transform:uppercase; padding:0.38rem 1rem; border-radius:var(--radius-pill); margin-bottom:1.2rem; }
+/* Title — always dark text, never bright color */
+.page-title { color:var(--text-heading); margin-bottom:0.9rem; }
+.page-title span { color:var(--color-primary); }
+.page-sub { color:var(--text-body); max-width:580px; margin-bottom:3rem; }
+
+/* ============================================================ PROGRESS BAR */
+.progress-bar { display:flex; align-items:center; margin-bottom:3rem; }
+.step-meta { display:flex; flex-direction:column; align-items:center; gap:4px; }
+/* Steps use 10% pink for active, 30% secondary for done, subtle for future */
+.step-dot { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--font-heading); font-size:0.78rem; font-weight:700; flex-shrink:0; transition:var(--transition); background:var(--color-surface); border:2px solid var(--color-subtle); color:var(--text-muted); }
+.step-dot.active { background:var(--color-primary);   border-color:var(--color-primary);   color:var(--color-surface); }
+.step-dot.done   { background:var(--color-secondary); border-color:var(--color-secondary); color:var(--text-heading); }
+.step-connector  { flex:1; height:2px; background:var(--border-mid); margin:0 0.3rem; transition:background 0.3s; }
+.step-connector.done { background:var(--color-secondary); }
+.step-label { font-family:var(--font-body); font-size:clamp(0.65rem,0.8vw,0.78rem); font-weight:500; color:var(--text-muted); white-space:nowrap; }
+.step-label.active { color:var(--color-primary); font-weight:600; }
+.step-label.done   { color:var(--text-body); }
+
+/* ============================================================ FORM CARD */
+/* Card — white (60%), clean surface */
+.form-card { background:var(--color-surface); border:1.5px solid var(--border-light); border-radius:var(--radius-card); padding:clamp(1.8rem,3vw,3rem); margin-bottom:1.5rem; box-shadow:0 4px 24px rgba(211,196,209,0.25); }
+.step-section { display:none; }
+.step-section.visible { display:block; }
+.step-heading { font-family:var(--font-heading); font-size:clamp(1.2rem,2vw,1.6rem); font-weight:700; color:var(--text-heading); margin-bottom:0.4rem; }
+.step-desc    { font-family:var(--font-body); font-size:clamp(0.85rem,1vw,0.95rem); color:var(--text-body); line-height:1.6; margin-bottom:2rem; }
+.form-row   { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.form-group { display:flex; flex-direction:column; gap:0.4rem; margin-bottom:1.3rem; }
+.form-group:last-child { margin-bottom:0; }
+label { font-family:var(--font-body); font-size:clamp(0.78rem,0.9vw,0.88rem); font-weight:500; color:var(--text-heading); }
+.label-hint { font-size:0.78rem; color:var(--text-muted); font-weight:400; margin-left:0.3rem; }
+
+input[type=text],input[type=email],input[type=url],input[type=tel],textarea,select {
+  font-family:var(--font-body); font-size:16px;
+  padding:0.85rem 1rem;
+  border:1.5px solid var(--border-mid); border-radius:10px;
+  background:var(--color-surface); color:var(--text-heading);
+  outline:none; width:100%; transition:var(--transition);
+}
+/* Focus — 10% pink accent ring */
+input:focus,textarea:focus,select:focus { border-color:var(--color-primary); box-shadow:0 0 0 3px rgba(255,114,159,0.12); }
+input::placeholder,textarea::placeholder { color:var(--text-muted); }
+textarea { resize:vertical; min-height:100px; }
+select { appearance:none; cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239a7a88' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 1rem center; padding-right:2.5rem; }
+
+/* ============================================================ VIBE SELECTOR */
+/* Selected state uses mint (30%) not pink — saves pink for CTAs */
+.vibe-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem; margin-top:0.5rem; }
+.vibe-card { border:1.5px solid var(--border-mid); border-radius:12px; padding:0.9rem 1rem; cursor:pointer; transition:var(--transition); display:flex; flex-direction:column; gap:0.3rem; background:var(--color-surface); }
+.vibe-card:hover    { border-color:var(--color-secondary); background:#f0fbfe; }
+.vibe-card.selected { border-color:var(--color-primary); background:rgba(255,114,159,0.06); box-shadow:0 0 0 3px rgba(255,114,159,0.10); }
+.vibe-icon { font-size:1.3rem; }
+.vibe-name { font-family:var(--font-body); font-size:0.82rem; font-weight:600; color:var(--text-heading); }
+.vibe-desc { font-family:var(--font-body); font-size:0.72rem; color:var(--text-muted); line-height:1.4; }
+
+/* ============================================================ COLOR SWATCHES */
+.color-row { display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:0.5rem; }
+.color-swatch { width:36px; height:36px; border-radius:50%; cursor:pointer; border:2.5px solid transparent; transition:var(--transition); }
+.color-swatch:hover    { transform:scale(1.1); }
+.color-swatch.selected { border-color:var(--text-heading); transform:scale(1.15); }
+
+/* ============================================================ BUTTONS */
+.btn { display:inline-flex; align-items:center; gap:0.5rem; font-family:var(--font-button); font-size:clamp(0.85rem,1vw,1rem); font-weight:600; padding:clamp(0.75rem,1vw,1rem) clamp(1.4rem,2vw,2rem); border-radius:var(--radius-pill); text-decoration:none; transition:var(--transition); border:none; cursor:pointer; white-space:nowrap; min-height:44px; }
+.btn-primary { background:var(--btn-primary-bg); color:var(--btn-primary-text); }
+.btn-primary:hover { background:var(--btn-primary-bg-hover); transform:translateY(-2px); }
+.btn-ghost   { background:transparent; color:var(--btn-ghost-text); border:2px solid var(--btn-ghost-border); }
+.btn-ghost:hover { border-color:var(--btn-ghost-border-hover); color:var(--btn-ghost-text-hover); }
+.btn-accent  { background:var(--btn-accent-bg); color:var(--btn-accent-text); }
+.btn-accent:hover { background:var(--btn-accent-bg-hover); transform:translateY(-2px); }
+.btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+.form-nav { display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap; margin-top:2rem; }
+
+/* ============================================================ SUCCESS */
+.success-screen { display:none; text-align:center; padding:clamp(2rem,4vw,4rem) clamp(1.5rem,3vw,3rem); }
+.success-screen.visible { display:block; }
+.success-icon  { font-size:3.5rem; margin-bottom:1.5rem; }
+.success-title { font-family:var(--font-heading); font-size:clamp(1.5rem,2.5vw,2.2rem); font-weight:700; color:var(--text-heading); margin-bottom:0.8rem; }
+.success-sub   { font-family:var(--font-body); font-size:clamp(0.9rem,1vw,1rem); color:var(--text-body); line-height:1.7; max-width:440px; margin:0 auto 2rem; }
+
+/* ============================================================ FOOTER */
+footer { background:var(--bg-footer); color:var(--text-body); text-align:center; padding:clamp(1.2rem,2vw,1.8rem) 5%; font-family:var(--font-body); font-size:clamp(0.72rem,0.85vw,0.85rem); }
+footer .brand { color:var(--color-primary); font-weight:600; }
+
+/* ============================================================ RESPONSIVE */
+@media(max-width:600px) {
+  .form-row  { grid-template-columns:1fr; }
+  .vibe-grid { grid-template-columns:1fr 1fr; }
+  .step-label { display:none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="placeholder_landing.html" class="nav-logo">Place<span>holder</span></a>
+  <a href="placeholder_landing.html" class="nav-back">← Back to home</a>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-inner">
+
+    <div class="page-tag">Let's get started</div>
+    <h1 class="t-h1 page-title">Tell us about your <span>vision.</span></h1>
+    <p class="t-body page-sub">The more you share, the better we can build. This takes about 3 minutes — and it's how we make sure your page is built right from day one.</p>
+
+    <div class="progress-bar" id="progressBar">
+      <div class="step-meta"><div class="step-dot active" id="dot-1">1</div><div class="step-label active" id="lbl-1">Your business</div></div>
+      <div class="step-connector" id="conn-1"></div>
+      <div class="step-meta"><div class="step-dot" id="dot-2">2</div><div class="step-label" id="lbl-2">Your audience</div></div>
+      <div class="step-connector" id="conn-2"></div>
+      <div class="step-meta"><div class="step-dot" id="dot-3">3</div><div class="step-label" id="lbl-3">Look and feel</div></div>
+      <div class="step-connector" id="conn-3"></div>
+      <div class="step-meta"><div class="step-dot" id="dot-4">4</div><div class="step-label" id="lbl-4">Final details</div></div>
+    </div>
+
+    <div class="form-card" id="formCard">
+
+      <!-- STEP 1 -->
+      <div class="step-section visible" id="step-1">
+        <div class="step-heading">Tell us about your business</div>
+        <p class="step-desc">We want to understand what you do, who you are, and what makes you worth choosing.</p>
+        <div class="form-group">
+          <label for="biz-name">Business name <span class="label-hint">*</span></label>
+          <input type="text" id="biz-name" placeholder="e.g. Bloom Studio"/>
+        </div>
+        <div class="form-group">
+          <label for="biz-industry">Industry <span class="label-hint">*</span></label>
+          <select id="biz-industry">
+            <option value="" disabled selected>Select your industry</option>
+            <option>E-commerce / Retail</option><option>SaaS / Tech product</option>
+            <option>Freelancer / Personal brand</option><option>Agency / Services</option>
+            <option>Health and Wellness</option><option>Food and Hospitality</option>
+            <option>Real Estate</option><option>Education / Coaching</option>
+            <option>Creative / Arts</option><option>Finance / Legal</option><option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="biz-desc">What do you do? <span class="label-hint">In a few sentences</span></label>
+          <textarea id="biz-desc" placeholder="Describe what your business does and what makes it different..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="biz-goal">Main goal of your landing page <span class="label-hint">*</span></label>
+          <select id="biz-goal">
+            <option value="" disabled selected>Select a goal</option>
+            <option>Generate leads / enquiries</option><option>Sell a product or service directly</option>
+            <option>Build an email list</option><option>Promote an event</option>
+            <option>Showcase a portfolio</option><option>Launch a new product</option><option>Something else</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step-section" id="step-2">
+        <div class="step-heading">Who are you speaking to?</div>
+        <p class="step-desc">Great pages talk directly to a specific person. Help us understand yours.</p>
+        <div class="form-group">
+          <label for="audience">Describe your ideal customer</label>
+          <textarea id="audience" placeholder="e.g. Small business owners in their 30s looking to grow online..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="age-range">Age range</label>
+            <select id="age-range">
+              <option value="" disabled selected>Select range</option>
+              <option>18-24</option><option>25-34</option><option>35-44</option>
+              <option>45-54</option><option>55+</option><option>Mixed / All ages</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="audience-type">B2B or B2C?</label>
+            <select id="audience-type">
+              <option value="" disabled selected>Select type</option>
+              <option>B2C - selling to individuals</option>
+              <option>B2B - selling to businesses</option>
+              <option>Both</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="pain-point">What problem do you solve for them?</label>
+          <textarea id="pain-point" placeholder="e.g. They struggle to find affordable, reliable web help..." style="min-height:80px;"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="cta-action">What do you want visitors to do? <span class="label-hint">Your main CTA</span></label>
+          <input type="text" id="cta-action" placeholder="e.g. Book a call, buy now, fill out a form..."/>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step-section" id="step-3">
+        <div class="step-heading">What should it look and feel like?</div>
+        <p class="step-desc">Your page should feel like you. Pick the vibe that fits your brand best.</p>
+        <div class="form-group">
+          <label>Overall vibe <span class="label-hint">Select all that apply</span></label>
+          <div class="vibe-grid">
+            <div class="vibe-card" onclick="toggleVibe(this,'bold')"><div class="vibe-icon">🔥</div><div class="vibe-name">Bold and confident</div><div class="vibe-desc">Strong contrast, big type</div></div>
+            <div class="vibe-card" onclick="toggleVibe(this,'minimal')"><div class="vibe-icon">🤍</div><div class="vibe-name">Clean and minimal</div><div class="vibe-desc">Whitespace, restraint</div></div>
+            <div class="vibe-card" onclick="toggleVibe(this,'playful')"><div class="vibe-icon">🎨</div><div class="vibe-name">Playful and creative</div><div class="vibe-desc">Colour, personality</div></div>
+            <div class="vibe-card" onclick="toggleVibe(this,'luxury')"><div class="vibe-icon">✦</div><div class="vibe-name">Luxury and refined</div><div class="vibe-desc">Elegant, premium</div></div>
+            <div class="vibe-card" onclick="toggleVibe(this,'warm')"><div class="vibe-icon">🌿</div><div class="vibe-name">Warm and approachable</div><div class="vibe-desc">Friendly, soft, human</div></div>
+            <div class="vibe-card" onclick="toggleVibe(this,'tech')"><div class="vibe-icon">⚡</div><div class="vibe-name">Tech and modern</div><div class="vibe-desc">Sharp, data-driven</div></div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:1.5rem;">
+          <label>Brand colors <span class="label-hint">Select or enter hex codes below</span></label>
+          <div class="color-row">
+            <div class="color-swatch" style="background:#FF729F;" onclick="toggleSwatch(this,'#FF729F')" title="Pink"></div>
+            <div class="color-swatch" style="background:#56CBF9;" onclick="toggleSwatch(this,'#56CBF9')" title="Blue"></div>
+            <div class="color-swatch" style="background:#81F4E1;" onclick="toggleSwatch(this,'#81F4E1')" title="Mint"></div>
+            <div class="color-swatch" style="background:#D3C4D1;" onclick="toggleSwatch(this,'#D3C4D1')" title="Mauve"></div>
+            <div class="color-swatch" style="background:#FFD166;" onclick="toggleSwatch(this,'#FFD166')" title="Yellow"></div>
+            <div class="color-swatch" style="background:#A78BFA;" onclick="toggleSwatch(this,'#A78BFA')" title="Purple"></div>
+            <div class="color-swatch" style="background:#F97316;" onclick="toggleSwatch(this,'#F97316')" title="Orange"></div>
+            <div class="color-swatch" style="background:#10B981;" onclick="toggleSwatch(this,'#10B981')" title="Green"></div>
+          </div>
+          <input type="text" id="custom-colors" placeholder="Or type your hex codes, e.g. #3B82F6, #1E293B" style="margin-top:0.75rem;"/>
+        </div>
+        <div class="form-group">
+          <label for="inspiration">Websites or brands you love <span class="label-hint">URLs or names</span></label>
+          <input type="text" id="inspiration" placeholder="e.g. stripe.com, linear.app, or 'I love the Airbnb homepage'"/>
+        </div>
+        <div class="form-group">
+          <label for="avoid">Anything to avoid style-wise?</label>
+          <input type="text" id="avoid" placeholder="e.g. No dark backgrounds, nothing too corporate..."/>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step-section" id="step-4">
+        <div class="step-heading">Almost there</div>
+        <p class="step-desc">Just a few more things so we can reach you and understand the full picture.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="contact-name">Your name <span class="label-hint">*</span></label>
+            <input type="text" id="contact-name" placeholder="Jane Smith" autocomplete="name"/>
+          </div>
+          <div class="form-group">
+            <label for="contact-email">Email address <span class="label-hint">*</span></label>
+            <input type="email" id="contact-email" placeholder="jane@company.com" autocomplete="email"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="contact-phone">Phone number <span class="label-hint">Optional</span></label>
+          <input type="tel" id="contact-phone" placeholder="+1 (555) 000-0000" autocomplete="tel"/>
+        </div>
+        <div class="form-group">
+          <label for="existing-site">Existing website <span class="label-hint">URL if you have one</span></label>
+          <input type="url" id="existing-site" placeholder="https://yoursite.com"/>
+        </div>
+        <div class="form-group">
+          <label for="anything-else">Anything else we should know?</label>
+          <textarea id="anything-else" placeholder="Any extra context or things important to you..." style="min-height:80px;"></textarea>
+        </div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="success-screen" id="successScreen">
+        <div class="success-icon">🎉</div>
+        <div class="success-title">We've got everything we need.</div>
+        <p class="t-body success-sub">We'll review your brief and get back to you within 24 hours with a plan. Talk soon.</p>
+        <a href="placeholder_landing.html" class="btn btn-accent">← Back to home</a>
+      </div>
+
+      <div class="form-nav" id="formNav">
+        <button class="btn btn-ghost"  id="btnBack" onclick="prevStep()" style="display:none;">← Back</button>
+        <button class="btn btn-accent" id="btnNext" onclick="nextStep()" style="margin-left:auto;">Next →</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 <span class="brand">Placeholder</span>. All rights reserved. Built with purpose.</p>
+</footer>
+
+<script>
+let currentStep = 1;
+const totalSteps     = 4;
+const selectedVibes  = new Set();
+const selectedColors = new Set();
+
+function goToStep(n) {
+  for (let i = 1; i <= totalSteps; i++) {
+    document.getElementById('step-' + i).classList.remove('visible');
+    const dot = document.getElementById('dot-' + i);
+    const lbl = document.getElementById('lbl-' + i);
+    if (i < n)        { dot.className = 'step-dot done';   dot.textContent = '✓'; lbl.className = 'step-label done'; }
+    else if (i === n) { dot.className = 'step-dot active'; dot.textContent = i;   lbl.className = 'step-label active'; }
+    else              { dot.className = 'step-dot';        dot.textContent = i;   lbl.className = 'step-label'; }
+    if (i < totalSteps) {
+      document.getElementById('conn-' + i).className = i < n ? 'step-connector done' : 'step-connector';
+    }
+  }
+  document.getElementById('step-' + n).classList.add('visible');
+  document.getElementById('btnBack').style.display = n > 1 ? 'inline-flex' : 'none';
+  document.getElementById('btnNext').textContent   = n === totalSteps ? 'Submit →' : 'Next →';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextStep() {
+  if (currentStep < totalSteps) { currentStep++; goToStep(currentStep); }
+  else submitForm();
+}
+function prevStep() {
+  if (currentStep > 1) { currentStep--; goToStep(currentStep); }
+}
+function toggleVibe(el, key) {
+  selectedVibes.has(key) ? (selectedVibes.delete(key), el.classList.remove('selected'))
+                         : (selectedVibes.add(key),    el.classList.add('selected'));
+}
+function toggleSwatch(el, hex) {
+  selectedColors.has(hex) ? (selectedColors.delete(hex), el.classList.remove('selected'))
+                          : (selectedColors.add(hex),    el.classList.add('selected'));
+}
+function submitForm() {
+  const name  = document.getElementById('contact-name').value.trim();
+  const email = document.getElementById('contact-email').value.trim();
+  if (!name || !email) { alert('Please fill in your name and email before submitting.'); return; }
+
+  const fields = [
+    ['Business',      document.getElementById('biz-name').value],
+    ['Industry',      document.getElementById('biz-industry').value],
+    ['Description',   document.getElementById('biz-desc').value],
+    ['Goal',          document.getElementById('biz-goal').value],
+    ['Audience',      document.getElementById('audience').value],
+    ['Age range',     document.getElementById('age-range').value],
+    ['B2B/B2C',       document.getElementById('audience-type').value],
+    ['Pain point',    document.getElementById('pain-point').value],
+    ['CTA',           document.getElementById('cta-action').value],
+    ['Vibe',          [...selectedVibes].join(', ')  || 'Not selected'],
+    ['Colors',        [...selectedColors].join(', ') || 'None'],
+    ['Custom colors', document.getElementById('custom-colors').value || 'None'],
+    ['Inspiration',   document.getElementById('inspiration').value   || 'None'],
+    ['Avoid',         document.getElementById('avoid').value         || 'None'],
+    ['Name',          name],
+    ['Email',         email],
+    ['Phone',         document.getElementById('contact-phone').value   || 'Not provided'],
+    ['Existing site', document.getElementById('existing-site').value   || 'None'],
+    ['Extra notes',   document.getElementById('anything-else').value   || 'None'],
+  ];
+
+  const body    = fields.map(([k, v]) => k + ': ' + v).join('\n');
+  const subject = encodeURIComponent('New brief: ' + (fields[0][1] || 'Landing page enquiry'));
+  window.location.href = 'mailto:hello@placeholder.co?subject=' + subject + '&body=' + encodeURIComponent(body);
+
+  for (let i = 1; i <= totalSteps; i++) document.getElementById('step-' + i).classList.remove('visible');
+  document.getElementById('progressBar').style.display = 'none';
+  document.getElementById('formNav').style.display     = 'none';
+  document.getElementById('successScreen').classList.add('visible');
+}
+</script>
+</body>
+</html>
